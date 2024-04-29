@@ -15,7 +15,7 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity   //this need to be enable becausing we are validating on method level authorization
+//@EnableMethodSecurity   //this need to be enable becausing we are validating on method level authorization
 public class SecurityConfig {
 
     @Autowired
@@ -29,19 +29,20 @@ public class SecurityConfig {
         http.authorizeHttpRequests(authorize -> {
             authorize
                     .requestMatchers(HttpMethod.GET, "/users/home").permitAll()  // here we are allowing GET request for "/home" without authentication
+                    .requestMatchers(HttpMethod.POST, "/users/add").permitAll() // here we are allowing POST request for "/add" with ADMIN role
                     .anyRequest().authenticated();
         });
-        http.oauth2ResourceServer(t -> {
-//            t.opaqueToken(Customizer.withDefaults()); // Here we are using Opaque Token and
-//            t.jwt(Customizer.withDefaults());  // Here we are using JWT and
-            t.jwt(jwtConfigurer -> jwtConfigurer.jwtAuthenticationConverter(jwtAuthConverter));
-            // here we called default jwtAuthenticationConverter on configuration object and passed our self made jwtAuthConverter for authorization
-            // "Customizer.withDefaults()" used because we don't want to override any of the internal functionality
-        });
-        http.sessionManagement(
-                // we do not need spring security session - so we kept here policy as STATELESS
-                t -> t.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-        );
+//        http.oauth2ResourceServer(t -> {
+////            t.opaqueToken(Customizer.withDefaults()); // Here we are using Opaque Token and
+////            t.jwt(Customizer.withDefaults());  // Here we are using JWT and
+//            t.jwt(jwtConfigurer -> jwtConfigurer.jwtAuthenticationConverter(jwtAuthConverter));
+//            // here we called default jwtAuthenticationConverter on configuration object and passed our self made jwtAuthConverter for authorization
+//            // "Customizer.withDefaults()" used because we don't want to override any of the internal functionality
+//        });
+//        http.sessionManagement(
+//                // we do not need spring security session - so we kept here policy as STATELESS
+//                t -> t.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//        );
         return http.build();
     }
     @Bean

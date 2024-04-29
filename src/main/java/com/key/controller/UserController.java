@@ -17,8 +17,9 @@ public class UserController {
         return "Welcome to Keycloak API";
     }
 
-    @PostMapping("/save-user")
+    @PostMapping("/add")
     public String createUser(@RequestBody User user) {
+        System.out.println(user.getUsername());
         keycloakService.createUser(user);
         return "User created successfully by Keycloak";
     }

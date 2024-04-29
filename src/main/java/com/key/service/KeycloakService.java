@@ -20,9 +20,11 @@ public class KeycloakService {
         UsersResource usersResource = realmResource.users();
 
         UserRepresentation user = new UserRepresentation();
+        user.setEnabled(true);
         user.setUsername(userEntity.getUsername());
         user.setEmail(userEntity.getEmail());
-        user.setEnabled(true);
+        user.setLastName(userEntity.getLastName());
+        user.setFirstName(userEntity.getFirstName());
 //        usersResource.create(user);
 
         try (Response response = usersResource.create(user)) {

@@ -21,6 +21,12 @@ public class KeycloakConfig {
     @Value("${keycloak.client-secret}")
     private String clientSecret;
 
+    @Value("${keycloak.admin.username}")
+    private String adminUsername;
+
+    @Value("${keycloak.admin.password}")
+    private String adminPassword;
+
     //This bean will be used by the JwtAuthConverter in your security configuration (SecurityConfig).
     @Bean
     public Keycloak keycloak() {
@@ -30,6 +36,8 @@ public class KeycloakConfig {
                 .realm(realm)
                 .clientId(clientId)
                 .clientSecret(clientSecret)
+                .username(adminUsername)
+                .password(adminPassword)
                 .build();
     }
 }
